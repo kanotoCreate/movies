@@ -28,6 +28,8 @@ jobs:
         run: yarn
       - name: Build
         run: yarn build
+      - name: ls
+        run: ls
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
