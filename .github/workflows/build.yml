@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: ls
-        run: pwd
+        run: echo ${{ steps.deployment.outputs.page_url }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
