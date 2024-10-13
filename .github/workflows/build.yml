@@ -9,8 +9,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  build:
+  deploy:
     environment:
         name: github-pages
         url: ${{ steps.deployment.outputs.page_url }}
@@ -18,8 +23,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -30,20 +33,12 @@ jobs:
         run: yarn build
       - name: ls
         run: ls
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - uses: actions/deploy-pages@v2
+          path: './docs'
+      - name: Deploy
         id: deployment
+        uses: actions/deploy-pages@v4
